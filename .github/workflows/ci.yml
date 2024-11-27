@@ -24,7 +24,7 @@ jobs:
           context: .
           file: caddy/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.actor }}/caddy
+          tags: ghcr.io/${{ github.actor }}/caddy:latest
   build-and-push-php:
     name: Build and push PHP
     strategy:
