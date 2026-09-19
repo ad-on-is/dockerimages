@@ -1,0 +1,10 @@
+{
+    auto_https off
+}
+
+:80 {
+    root * /var/www/html
+    try_files {path} {path}/index.html /index.html
+    file_server
+    encode gzip
+}

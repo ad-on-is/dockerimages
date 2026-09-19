@@ -10,4 +10,5 @@ RUN chmod uga+x /usr/local/lib/setup
 RUN /usr/local/lib/setup
 RUN install-php-extensions phalcon
 
+
 COPY php/php.ini /usr/local/etc/php/
