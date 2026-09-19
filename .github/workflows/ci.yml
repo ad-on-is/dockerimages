@@ -24,8 +24,8 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: footools/Dockerfile
+          context: footools
+          file: Dockerfile
           push: true
           tags: ghcr.io/${{ github.actor }}/footools:latest
 
@@ -44,8 +44,8 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: caddy/Dockerfile
+          context: caddy
+          file: Dockerfile
           push: true
           tags: ghcr.io/${{ github.actor }}/caddy:latest
 
@@ -73,7 +73,7 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: php/${{ matrix.php_version }}/Dockerfile
+          context: php
+          file: ${{ matrix.php_version }}/Dockerfile
           push: true
           tags: ghcr.io/${{ github.actor }}/php-fpm:${{ matrix.php_version }}
