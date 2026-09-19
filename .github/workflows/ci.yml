@@ -9,8 +9,8 @@ on:
 
 jobs:
 
-  build-and-push-footools:
-    name: Build and push FooTools
+  checkout-and-login:
+    name: Checkout and login to Container registry
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,36 +21,34 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-push-footools:
+    name: Build and push FooTools
+    runs-on: ubuntu-latest
+    needs: checkout-and-login
+    steps:
       - name: Build
         uses: docker/build-push-action@v3
         with:
           context: footools
-          file: Dockerfile
           push: true
           tags: ghcr.io/${{ github.actor }}/footools:latest
 
   build-and-push-caddy:
     name: Build and push Caddy
     runs-on: ubuntu-latest
+    needs: checkout-and-login
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         uses: docker/build-push-action@v3
         with:
           context: caddy
-          file: Dockerfile
           push: true
           tags: ghcr.io/${{ github.actor }}/caddy:latest
 
   build-and-push-php:
     name: Build and push PHP
+    needs: checkout-and-login
     strategy:
       fail-fast: false
       matrix:
@@ -62,18 +60,10 @@ jobs:
           - "8.0"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: php
-          file: ${{ matrix.php_version }}/Dockerfile
+          context: .
+          file: php/${{ matrix.php_version }}/Dockerfile
           push: true
           tags: ghcr.io/${{ github.actor }}/php-fpm:${{ matrix.php_version }}
