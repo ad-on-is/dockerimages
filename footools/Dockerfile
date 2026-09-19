@@ -4,7 +4,7 @@ FROM python:3.12-alpine AS crawler
 RUN apk add --no-cache ca-certificates
 
 WORKDIR /app
-COPY crawl.py /app/crawl.py
+COPY ./crawl.py /app/crawl.py
 
 ENV CRAWL_URL=https://footrue.com \
     OUTPUT_DIR=/var/www/html \
