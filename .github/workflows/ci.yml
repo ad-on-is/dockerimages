@@ -40,12 +40,19 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Caddy version
+        id: caddy-version
+        run: |
+          VERSION="$(docker run --rm caddy:latest caddy version | awk 'NR==1{print $1}')"
+          echo "version=${VERSION#v}" >> "$GITHUB_OUTPUT"
       - name: Build
         uses: docker/build-push-action@v3
         with:
           context: caddy
           push: true
-          tags: ghcr.io/${{ github.actor }}/caddy:latest
+          tags: |
+            ghcr.io/${{ github.actor }}/caddy:latest
+            ghcr.io/${{ github.actor }}/caddy:${{ steps.caddy-version.outputs.version }}
 
   build-and-push-php:
     name: Build and push PHP
