@@ -17,8 +17,7 @@ RUN python /app/crawl.py
 FROM caddy:latest
 
 COPY --from=crawler /var/www/html /var/www/html
-COPY Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80
 
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
+CMD ["caddy", "run", "--file-server", "--root", "/var/www/html"]
