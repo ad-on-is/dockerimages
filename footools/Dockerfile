@@ -20,4 +20,4 @@ COPY --from=crawler /var/www/html /var/www/html
 
 EXPOSE 80
 
-CMD ["caddy", "run", "--file-server", "--root", "/var/www/html"]
+CMD ["caddy", "file-server", "--root", "/var/www/html"]
